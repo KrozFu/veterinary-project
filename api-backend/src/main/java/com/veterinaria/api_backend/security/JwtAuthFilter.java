@@ -1,5 +1,6 @@
 package com.veterinaria.api_backend.security;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +20,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private JwtService jwtService;
-    private UserDetailsService userDetailsService;
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -48,4 +49,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
+//    @PostConstruct
+//    public void init() {
+//        System.out.println("JwtService: " + (jwtService != null ? "INYECTADO" : "NULL"));
+//        System.out.println("UserDetailsService: " + (userDetailsService != null ? "INYECTADO" : "NULL"));
+//    }
 }
