@@ -34,7 +34,6 @@ export class RegisterComponent {
       const userData = this.registerForm.value;
       this.http
         .post('http://localhost:9000/api/auth/register', userData)
-        // .post('/api/auth/register', userData)
         .subscribe({
           next: (response) => {
             console.log('Registro exitoso:', response);
