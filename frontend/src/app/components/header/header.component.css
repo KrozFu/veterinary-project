@@ -1,0 +1,56 @@
+.header-custom {
+  background-color: #ffffff;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+F
+  .navbar-brand {
+    font-size: 1.2rem;
+    color: #2d4229;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #1f6f4a;
+    }
+  }
+
+  .header-logo {
+    height: 32px;
+    width: auto;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: rotate(5deg);
+    }
+  }
+
+  .nav-link {
+    color: #495057 !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+
+    &:hover,
+    &.active {
+      color: #2d4229 !important;
+    }
+  }
+
+  .btn-outline-primary {
+    border-color: #2d4229;
+    color: #2d4229;
+
+    &:hover {
+      background-color: #2d4229;
+      color: white;
+    }
+  }
+
+  .btn-primary {
+    background-color: #2d4229;
+    border-color: #2d4229;
+
+    &:hover {
+      background-color: #1f6f4a;
+      border-color: #1f6f4a;
+    }
+  }
+}

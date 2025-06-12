@@ -1,0 +1,69 @@
+<nav class="navbar navbar-expand-lg navbar-light header-custom shadow-sm">
+  <div class="container">
+    <!-- Logo y nombre -->
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
+      <img src="assets/logo.png" alt="Logo Mascotas" class="header-logo" />
+      <span class="fw-bold fs-5">Veterinaria</span>
+    </a>
+
+    <!-- Botón hamburguesa para móvil -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Enlaces de navegación -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav align-items-center gap-3 mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <i class="bi bi-house-door me-1"></i> Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center"
+            routerLink="/store"
+            routerLinkActive="active"
+          >
+            <i class="bi bi-bag me-1"></i> Tienda
+          </a>
+        </li>
+        <!-- Grupo Login / Register -->
+        <li class="nav-item d-none d-lg-block">
+          <span class="text-muted small">¿Ya tienes cuenta?</span>
+        </li>
+        <li class="nav-item">
+          <a
+            class="btn btn-outline-primary btn-sm px-3"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="btn btn-primary btn-sm px-3"
+            routerLink="/register"
+            routerLinkActive="active"
+          >
+            <i class="bi bi-person-plus me-1"></i> Registrarse
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

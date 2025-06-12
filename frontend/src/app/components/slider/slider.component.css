@@ -1,0 +1,27 @@
+/* slider.component.css */
+
+#carouselMascotas {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.slider-img {
+  height: 350px;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .slider-img {
+    height: 200px;
+  }
+  .carousel-caption {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
+}

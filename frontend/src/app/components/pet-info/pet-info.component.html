@@ -1,0 +1,204 @@
+<div class="pet-info-container">
+  <!-- Tabs de Bootstrap para tipos de mascota -->
+  <ul
+    class="nav nav-tabs justify-content-center mb-4 border-bottom-0"
+    id="petTabs"
+    role="tablist"
+  >
+    <li class="nav-item me-2" role="presentation">
+      <button
+        class="nav-link rounded-pill px-4 py-2 active"
+        id="perros-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#perros"
+        type="button"
+        role="tab"
+        aria-controls="perros"
+        aria-selected="true"
+      >
+        <i class="bi bi-dog me-1"></i> Perros
+      </button>
+    </li>
+    <li class="nav-item me-2" role="presentation">
+      <button
+        class="nav-link rounded-pill px-4 py-2"
+        id="gatos-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#gatos"
+        type="button"
+        role="tab"
+        aria-controls="gatos"
+        aria-selected="false"
+      >
+        <i class="bi bi-cat me-1"></i> Gatos
+      </button>
+    </li>
+    <li class="nav-item me-2" role="presentation">
+      <button
+        class="nav-link rounded-pill px-4 py-2"
+        id="hamsters-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#hamsters"
+        type="button"
+        role="tab"
+        aria-controls="hamsters"
+        aria-selected="false"
+      >
+        <i class="bi bi-bug me-1"></i> Hámsters
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link rounded-pill px-4 py-2"
+        id="peces-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#peces"
+        type="button"
+        role="tab"
+        aria-controls="peces"
+        aria-selected="false"
+      >
+        <i class="bi bi-droplet me-1"></i> Peces
+      </button>
+    </li>
+  </ul>
+
+  <!-- Contenido de cada tab -->
+  <div class="tab-content shadow-sm rounded bg-white" id="petTabsContent">
+    <!-- Perros -->
+    <div
+      class="tab-pane fade show active p-4"
+      id="perros"
+      role="tabpanel"
+      aria-labelledby="perros-tab"
+    >
+      <h5 class="mb-3 text-primary">
+        <i class="bi bi-dog me-2"></i>Cuidados para Perros
+      </h5>
+      <ul class="list-unstyled">
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Alimentación
+          balanceada 2 veces al día.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Paseos
+          diarios y ejercicio regular.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Visitas
+          veterinarias y vacunación anual.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Baño y
+          cepillado según el tipo de pelaje.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Agua fresca
+          siempre disponible.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Gatos -->
+    <div
+      class="tab-pane fade p-4"
+      id="gatos"
+      role="tabpanel"
+      aria-labelledby="gatos-tab"
+    >
+      <h5 class="mb-3 text-danger">
+        <i class="bi bi-cat me-2"></i>Cuidados para Gatos
+      </h5>
+      <ul class="list-unstyled">
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Alimentación
+          específica para gatos según la edad.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Limpieza
+          diaria de la caja de arena.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Juguetes y
+          rascadores para su entretenimiento.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Vacunas y
+          desparasitación periódica.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Ambiente
+          seguro y libre de peligros.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Hámsters -->
+    <div
+      class="tab-pane fade p-4"
+      id="hamsters"
+      role="tabpanel"
+      aria-labelledby="hamsters-tab"
+    >
+      <h5 class="mb-3 text-warning">
+        <i class="bi bi-bug me-2"></i>Cuidados para Hámsters
+      </h5>
+      <ul class="list-unstyled">
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Jaula amplia
+          y limpia, con rueda de ejercicio.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Alimentación
+          con semillas y verduras frescas.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Agua limpia y
+          fresca diariamente.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Evitar
+          corrientes de aire y temperaturas extremas.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Juguetes y
+          tubos para explorar.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Peces -->
+    <div
+      class="tab-pane fade p-4"
+      id="peces"
+      role="tabpanel"
+      aria-labelledby="peces-tab"
+    >
+      <h5 class="mb-3 text-info">
+        <i class="bi bi-droplet me-2"></i>Cuidados para Peces
+      </h5>
+      <ul class="list-unstyled">
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Acuario
+          limpio, con filtro y temperatura adecuada.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Alimentación
+          en pequeñas cantidades 1-2 veces al día.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Cambios
+          parciales de agua semanalmente.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>No
+          sobrealimentar para evitar contaminación.
+        </li>
+        <li class="mb-2">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>Iluminación y
+          decoración para su bienestar.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
