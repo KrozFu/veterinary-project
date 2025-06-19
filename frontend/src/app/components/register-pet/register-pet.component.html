@@ -1,0 +1,46 @@
+<form [formGroup]="petForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label>Nombre</label>
+    <input type="text" formControlName="nombre" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Edad</label>
+    <input type="number" formControlName="edad" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Raza</label>
+    <input type="text" formControlName="raza" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Color</label>
+    <input type="text" formControlName="color" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Tipo</label>
+    <select formControlName="tipo" class="form-select">
+      <option value="">Seleccione un tipo</option>
+      <option value="Perro">Perro</option>
+      <option value="Gato">Gato</option>
+      <option value="Pez">Pez</option>
+      <option value="Loro">Loro</option>
+      <option value="Hamster">Hamster</option>
+      <option value="Otro">Otro</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label>Descripción</label>
+    <textarea formControlName="descripcion" class="form-control"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label>URL de la foto</label>
+    <input type="url" formControlName="fotoUrl" class="form-control" />
+  </div>
+
+  <button type="submit" class="btn btn-success">Registrar Mascota</button>
+</form>

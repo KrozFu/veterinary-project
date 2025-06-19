@@ -1,69 +1,174 @@
-<nav class="navbar navbar-expand-lg navbar-light header-custom shadow-sm">
-  <div class="container">
-    <!-- Logo y nombre -->
-    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
-      <img src="assets/logo.png" alt="Logo Mascotas" class="header-logo" />
-      <span class="fw-bold fs-5">Veterinaria</span>
-    </a>
-
-    <!-- Botón hamburguesa para móvil -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Enlaces de navegación -->
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav align-items-center gap-3 mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a
-            class="nav-link d-flex align-items-center"
-            routerLink="/"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <i class="bi bi-house-door me-1"></i> Inicio
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link d-flex align-items-center"
-            routerLink="/store"
-            routerLinkActive="active"
-          >
-            <i class="bi bi-bag me-1"></i> Tienda
-          </a>
-        </li>
-        <!-- Grupo Login / Register -->
-        <li class="nav-item d-none d-lg-block">
-          <span class="text-muted small">¿Ya tienes cuenta?</span>
-        </li>
-        <li class="nav-item">
-          <a
-            class="btn btn-outline-primary btn-sm px-3"
-            routerLink="/login"
-            routerLinkActive="active"
-          >
-            <i class="bi bi-box-arrow-in-right me-1"></i> Login
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="btn btn-primary btn-sm px-3"
-            routerLink="/register"
-            routerLinkActive="active"
-          >
-            <i class="bi bi-person-plus me-1"></i> Registrarse
-          </a>
-        </li>
-      </ul>
+<header class="sticky-top">
+  <div
+    *ngIf="authService.isAuthenticated()"
+    class="user-banner bg-primary text-white py-2"
+  >
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          <span>
+            Bienvenido, <strong>{{ authService.getUsername() }}</strong>
+            <span class="d-none d-md-inline">
+              | Último acceso: {{ lastAccess | date : "mediumDate" }}</span
+            >
+          </span>
+        </div>
+        <a
+          routerLink="/citas/nueva"
+          class="btn btn-sm btn-light text-primary fw-bold"
+        >
+          <i class="bi bi-plus-circle me-1"></i> Nueva cita
+        </a>
+      </div>
     </div>
   </div>
-</nav>
+
+  <!-- Navbar principal -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <!-- Logo y marca -->
+      <a class="navbar-brand" routerLink="/">
+        <div class="d-flex align-items-center">
+          <img
+            src="assets/logos/logo.png"
+            alt="Veterinaria"
+            height="40"
+            class="me-2"
+          />
+          <div>
+            <div class="fw-bold text-primary fs-5">VetCare</div>
+            <div class="text-muted small">Centro veterinario</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Botón móvil -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Contenido del navbar -->
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <!-- Menú principal -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <i class="bi bi-house-door me-1"></i> Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/store" routerLinkActive="active">
+              <i class="bi bi-bag me-1"></i> Tienda
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/contacto"
+              routerLinkActive="active"
+            >
+              <i class="bi bi-geo-alt me-1"></i> Contacto
+            </a>
+          </li>
+        </ul>
+
+        <!-- Área de usuario -->
+        <div class="d-flex align-items-center">
+          <ng-container
+            *ngIf="!authService.isAuthenticated(); else userDropdown"
+          >
+            <div class="d-flex align-items-center gap-2">
+              <!-- Botón de Login -->
+              <button
+                class="btn btn-vet-outline"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+              >
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+                <span class="fw-medium">Acceso Clientes</span>
+              </button>
+
+              <!-- Botón de Registro -->
+              <button
+                class="btn btn-vet-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#registerModal"
+              >
+                <i class="bi bi-person-plus me-2"></i>
+                <span class="fw-medium">Registrarse</span>
+              </button>
+            </div>
+          </ng-container>
+
+          <!-- Versión autenticada -->
+          <ng-template #userDropdown>
+            <div class="dropdown">
+              <a
+                class="dropdown-toggle d-flex align-items-center text-decoration-none"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <div class="position-relative">
+                  <div
+                    class="avatar-icon bg-light text-primary rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px"
+                  >
+                    <i class="bi bi-person-fill fs-5"></i>
+                    <span
+                      class="position-absolute bottom-0 end-0 bg-success rounded-circle p-1 border border-2 border-white"
+                    ></span>
+                  </div>
+                </div>
+                <span class="d-none d-lg-inline fw-bold text-dark ms-2">{{
+                  authService.getUsername()
+                }}</span>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end mt-2 border-0 shadow-lg"
+              >
+                <li>
+                  <h6 class="dropdown-header text-primary">Mi cuenta</h6>
+                </li>
+                <li>
+                  <a class="dropdown-item" routerLink="/dashboard">
+                    <i class="bi bi-person me-2 text-primary"></i> Inicio
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" routerLink="/mascotas">
+                    <i class="bi bi-heart me-2 text-primary"></i> Mis mascotas
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" routerLink="/citas">
+                    <i class="bi bi-calendar3 me-2 text-primary"></i> Mis citas
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <button class="dropdown-item" (click)="logout()">
+                    <i class="bi bi-box-arrow-right me-2 text-primary"></i>
+                    Cerrar sesión
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

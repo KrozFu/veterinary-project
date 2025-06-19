@@ -1,0 +1,91 @@
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h2>Panel de Inicio</h2>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- ADMIN -->
+    <ng-container *ngIf="role === 'ADMIN'">
+      <div
+        class="col"
+        *ngFor="
+          let adminOption of [
+            {
+              title: 'Gestionar Clientes',
+              route: '/admin/xxx',
+              icon: 'bi-person-lines-fill'
+            },
+            {
+              title: 'Registrar Veterinarios',
+              route: '/admin/manage-clients',
+              icon: 'bi-person-plus-fill'
+            },
+            {
+              title: 'Ver Mascotas',
+              route: '/admin/dash-pets',
+              icon: 'bi bi-tencent-qq'
+            }
+          ]
+        "
+      >
+        <div class="card h-100 shadow-sm text-center">
+          <div class="card-body">
+            <i class="bi fs-1 mb-3" [ngClass]="adminOption.icon"></i>
+            <h5 class="card-title">{{ adminOption.title }}</h5>
+            <a [routerLink]="adminOption.route" class="btn btn-primary mt-3"
+              >Ir</a
+            >
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- CLIENTE -->
+    <ng-container *ngIf="role === 'CLIENTE'">
+      <div
+        class="col"
+        *ngFor="
+          let clientOption of [
+            {
+              title: 'Registrar Mascota',
+              route: '/admin/dash-pets',
+              icon: 'bi-plus-circle'
+            },
+            {
+              title: 'Agendar Cita',
+              route: '/client/appointments',
+              icon: 'bi-calendar-check'
+            }
+          ]
+        "
+      >
+        <div class="card h-100 shadow-sm text-center">
+          <div class="card-body">
+            <i class="bi fs-1 mb-3" [ngClass]="clientOption.icon"></i>
+            <h5 class="card-title">{{ clientOption.title }}</h5>
+            <a [routerLink]="clientOption.route" class="btn btn-success mt-3"
+              >Ir</a
+            >
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- VETERINARIO -->
+    <ng-container *ngIf="role === 'VETERINARIO'">
+      <div class="col">
+        <div class="card h-100 shadow-sm text-center">
+          <div class="card-body">
+            <i class="bi bi-journal-medical fs-1 mb-3"></i>
+            <h5 class="card-title">Historial Clínico</h5>
+            <a
+              routerLink="/veterinary/clinical-history"
+              class="btn btn-warning mt-3"
+              >Ir</a
+            >
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

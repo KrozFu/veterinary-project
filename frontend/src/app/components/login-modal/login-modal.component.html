@@ -1,0 +1,138 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <!-- Header del modal -->
+      <div class="modal-header bg-primary text-white">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-heart-pulse me-2"></i>
+          <h5 class="modal-title mb-0" id="loginModalLabel">Iniciar Sesión</h5>
+        </div>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <!-- Cuerpo del modal -->
+      <div class="modal-body p-4">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">
+              <i class="bi bi-envelope me-2"></i>Correo Electrónico
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="bi bi-at"></i>
+              </span>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                class="form-control"
+                [class.is-invalid]="email?.invalid && email?.touched"
+                [class.is-valid]="email?.valid && email?.touched"
+                placeholder="email"
+              />
+            </div>
+            <div
+              *ngIf="email?.invalid && email?.touched"
+              class="invalid-feedback d-block"
+            >
+              <i class="bi bi-exclamation-circle me-1"></i>
+              Por favor ingresa un correo válido.
+            </div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="mb-3">
+            <label for="password" class="form-label fw-semibold">
+              <i class="bi bi-lock me-2"></i>Contraseña
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="bi bi-key"></i>
+              </span>
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="password"
+                formControlName="password"
+                class="form-control"
+                [class.is-invalid]="password?.invalid && password?.touched"
+                [class.is-valid]="password?.valid && password?.touched"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="togglePassword()"
+              >
+                <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <div
+              *ngIf="password?.invalid && password?.touched"
+              class="invalid-feedback d-block"
+            >
+              <i class="bi bi-exclamation-circle me-1"></i>
+              La contraseña es requerida.
+            </div>
+          </div>
+
+          <!-- Recordar sesión -->
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="rememberMe" />
+            <label class="form-check-label" for="rememberMe">
+              Recordar sesión
+            </label>
+          </div>
+
+          <!-- Botones -->
+          <div class="d-grid gap-2">
+            <button
+              type="submit"
+              class="btn btn-primary py-2 fw-semibold"
+              [disabled]="loginForm.invalid"
+            >
+              <i class="bi bi-box-arrow-in-right me-2"></i>
+              Iniciar Sesión
+            </button>
+          </div>
+
+          <!-- Enlaces -->
+          <div class="text-center mt-3">
+            <small>
+              <a href="#" class="text-muted text-decoration-none"
+                >¿Olvidaste tu contraseña?</a
+              >
+            </small>
+          </div>
+
+          <hr class="my-3" />
+
+          <div class="text-center">
+            <small class="text-muted">
+              ¿No tienes cuenta?
+              <a
+                href="#"
+                class="text-primary fw-semibold text-decoration-none"
+                (click)="openRegisterModal()"
+              >
+                Regístrate aquí
+              </a>
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

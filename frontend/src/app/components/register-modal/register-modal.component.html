@@ -1,0 +1,264 @@
+<!-- Modal de Registro -->
+<div
+  class="modal fade"
+  id="registerModal"
+  tabindex="-1"
+  aria-labelledby="registerModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg">
+      <!-- Header del modal -->
+      <div class="modal-header bg-success text-white">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-person-plus me-2"></i>
+          <h5 class="modal-title mb-0" id="registerModalLabel">
+            Registro de Usuario
+          </h5>
+        </div>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <!-- Cuerpo del modal -->
+      <div class="modal-body p-4">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="row">
+            <!-- Identificación -->
+            <div class="col-md-6 mb-3">
+              <label for="identificacion" class="form-label fw-semibold">
+                <i class="bi bi-card-text me-2"></i>Identificación
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="bi bi-hash"></i>
+                </span>
+                <input
+                  type="text"
+                  id="identificacion"
+                  formControlName="identificacion"
+                  class="form-control"
+                  [class.is-invalid]="
+                    identificacion?.invalid && identificacion?.touched
+                  "
+                  [class.is-valid]="
+                    identificacion?.valid && identificacion?.touched
+                  "
+                  placeholder="12345678"
+                />
+              </div>
+              <div
+                *ngIf="identificacion?.invalid && identificacion?.touched"
+                class="invalid-feedback d-block"
+              >
+                <i class="bi bi-exclamation-circle me-1"></i>
+                La identificación es requerida.
+              </div>
+            </div>
+
+            <!-- Nombre -->
+            <div class="col-md-6 mb-3">
+              <label for="nombre" class="form-label fw-semibold">
+                <i class="bi bi-person me-2"></i>Nombre
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="bi bi-person-circle"></i>
+                </span>
+                <input
+                  type="text"
+                  id="nombre"
+                  formControlName="nombre"
+                  class="form-control"
+                  [class.is-invalid]="nombre?.invalid && nombre?.touched"
+                  [class.is-valid]="nombre?.valid && nombre?.touched"
+                  placeholder="nombre"
+                />
+              </div>
+              <div
+                *ngIf="nombre?.invalid && nombre?.touched"
+                class="invalid-feedback d-block"
+              >
+                <i class="bi bi-exclamation-circle me-1"></i>
+                El nombre es requerido.
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Apellido -->
+            <div class="col-md-6 mb-3">
+              <label for="apellido" class="form-label fw-semibold">
+                <i class="bi bi-person me-2"></i>Apellido
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="bi bi-person-badge"></i>
+                </span>
+                <input
+                  type="text"
+                  id="apellido"
+                  formControlName="apellido"
+                  class="form-control"
+                  [class.is-invalid]="apellido?.invalid && apellido?.touched"
+                  [class.is-valid]="apellido?.valid && apellido?.touched"
+                  placeholder="Pérez"
+                />
+              </div>
+              <div
+                *ngIf="apellido?.invalid && apellido?.touched"
+                class="invalid-feedback d-block"
+              >
+                <i class="bi bi-exclamation-circle me-1"></i>
+                El apellido es requerido.
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label fw-semibold">
+                <i class="bi bi-envelope me-2"></i>Correo Electrónico
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="bi bi-at"></i>
+                </span>
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  class="form-control"
+                  [class.is-invalid]="email?.invalid && email?.touched"
+                  [class.is-valid]="email?.valid && email?.touched"
+                  placeholder="usuario@email.com"
+                />
+              </div>
+              <div
+                *ngIf="email?.invalid && email?.touched"
+                class="invalid-feedback d-block"
+              >
+                <i class="bi bi-exclamation-circle me-1"></i>
+                Por favor ingresa un correo válido.
+              </div>
+            </div>
+          </div>
+
+          <!-- Dirección -->
+          <div class="mb-3">
+            <label for="direccion" class="form-label fw-semibold">
+              <i class="bi bi-geo-alt me-2"></i>Dirección
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="bi bi-house"></i>
+              </span>
+              <input
+                type="text"
+                id="direccion"
+                formControlName="direccion"
+                class="form-control"
+                [class.is-invalid]="direccion?.invalid && direccion?.touched"
+                [class.is-valid]="direccion?.valid && direccion?.touched"
+                placeholder="Calle 123 #45-67"
+              />
+            </div>
+            <div
+              *ngIf="direccion?.invalid && direccion?.touched"
+              class="invalid-feedback d-block"
+            >
+              <i class="bi bi-exclamation-circle me-1"></i>
+              La dirección es requerida.
+            </div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="mb-3">
+            <label for="password" class="form-label fw-semibold">
+              <i class="bi bi-lock me-2"></i>Contraseña
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="bi bi-key"></i>
+              </span>
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="password"
+                formControlName="password"
+                class="form-control"
+                [class.is-invalid]="password?.invalid && password?.touched"
+                [class.is-valid]="password?.valid && password?.touched"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="togglePassword()"
+              >
+                <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <div
+              *ngIf="password?.invalid && password?.touched"
+              class="invalid-feedback d-block"
+            >
+              <i class="bi bi-exclamation-circle me-1"></i>
+              La contraseña debe tener al menos 6 caracteres.
+            </div>
+          </div>
+
+          <!-- Términos y condiciones -->
+          <!-- <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="terms"
+              formControlName="terms"
+            />
+            <label class="form-check-label" for="terms">
+              Acepto los
+              <a href="#" class="text-primary">términos y condiciones</a>
+            </label>
+            <div
+              *ngIf="terms?.invalid && terms?.touched"
+              class="invalid-feedback d-block"
+            >
+              <i class="bi bi-exclamation-circle me-1"></i>
+              Debes aceptar los términos y condiciones.
+            </div>
+          </div> -->
+
+          <!-- Botones -->
+          <div class="d-grid gap-2">
+            <button
+              type="submit"
+              class="btn btn-success py-2 fw-semibold"
+              [disabled]="registerForm.invalid"
+            >
+              <i class="bi bi-person-plus me-2"></i>
+              Registrarse
+            </button>
+          </div>
+
+          <hr class="my-3" />
+
+          <div class="text-center">
+            <small class="text-muted">
+              ¿Ya tienes cuenta?
+              <a
+                href="#"
+                class="text-primary fw-semibold text-decoration-none"
+                (click)="openLoginModal()"
+              >
+                Inicia sesión aquí
+              </a>
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 package com.veterinaria.api_backend.config;
 
 import com.veterinaria.api_backend.security.JwtAuthFilter;
-import com.veterinaria.api_backend.service.CustomUserDetailsService;
+import com.veterinaria.api_backend.service.UserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
-    private final CustomUserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,10 +37,15 @@ public class SecurityConfig {
                 .and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/register").permitAll()
+                        .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers("/api/mascotas/**").hasRole("CLIENTE")
+                        .requestMatchers("/api/auth/register-veterinario").hasRole("ADMIN")
+                        .requestMatchers("/api/cita/veterinario").hasRole("VETERINARIO")
+                        .requestMatchers("/api/cliente/**").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers("/api/veterinario/**").hasAnyRole("VETERINARIO", "ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/medico/**").hasRole("MEDICO")
-                        .requestMatchers("/api/cliente/**").hasRole("CLIENTE")
+                        .requestMatchers("/api/historiales/**").hasAnyRole("VETERINARIO", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -58,7 +63,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:4200")); // origen del frontend
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // si usas JWT con cookies
+        configuration.setAllowCredentials(true); // --> si usas JWT con cookies
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // aplica a todos los endpoints

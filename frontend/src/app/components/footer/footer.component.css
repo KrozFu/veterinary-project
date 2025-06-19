@@ -1,23 +1,25 @@
+/* === Footer === */
 .footer-custom {
-  background-color: #2d4229; /* Verde natural */
-  color: white;
+  background-color: var(--color-primary-darker);
+  color: var(--color-text-on-primary);
+  padding: 2rem 0;
+}
 
-  a.footer-link {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    transition: color 0.3s ease;
+.footer-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
 
-    &:hover {
-      color: #fff;
-    }
-  }
+.footer-link:hover {
+  color: var(--color-white);
+}
 
-  .footer-social i {
-    color: rgba(255, 255, 255, 0.8);
-    transition: color 0.3s ease;
+.footer-social i {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.3s ease;
+}
 
-    &:hover {
-      color: #ffc107;
-    }
-  }
+.footer-social i:hover {
+  color: var(--color-secondary);
 }

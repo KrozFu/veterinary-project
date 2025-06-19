@@ -1,101 +1,111 @@
-<div class="container py-4">
-  <h2 class="text-center mb-4">Tienda de Productos para Mascotas</h2>
+<!-- product-store.component.html -->
+<div class="store-container">
+  <header class="store-header">
+    <h1 class="store-title">Tienda Veterinaria</h1>
+    <p class="store-subtitle">
+      Productos de calidad para la salud y felicidad de tus mascotas
+    </p>
+  </header>
 
-  <!-- Filtros por tipo de mascota (opcional, puedes eliminar si no los usas aún) -->
-  <div class="d-flex justify-content-center gap-2 mb-4">
-    <button class="btn btn-outline-primary btn-sm active" type="button">
-      Todos
+  <div class="store-controls">
+    <!-- Search bar -->
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar productos..."
+        [ngModel]="searchQuery()"
+        (ngModelChange)="onSearchChange($event)"
+      />
+      <i class="bi bi-search search-icon"></i>
+    </div>
+
+    <!-- Filtros por tipo de mascota -->
+    <div class="filter-container">
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter() === 'all'"
+        (click)="updateFilter('all')"
+      >
+        <i class="bi bi-grid-fill"></i> Todos
+      </button>
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter() === 'dog'"
+        (click)="updateFilter('dog')"
+      >
+        <i class="bi bi-bone"></i> Perros
+      </button>
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter() === 'cat'"
+        (click)="updateFilter('cat')"
+      >
+        <i class="bi bi-brightness-high"></i> Gatos
+      </button>
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter() === 'hamster'"
+        (click)="updateFilter('hamster')"
+      >
+        <i class="bi bi-circle"></i> Roedores
+      </button>
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter() === 'fish'"
+        (click)="updateFilter('fish')"
+      >
+        <i class="bi bi-droplet"></i> Peces
+      </button>
+    </div>
+  </div>
+
+  <!-- Mensaje cuando no hay resultados -->
+  <div *ngIf="filteredProducts().length === 0" class="no-results">
+    <i class="bi bi-exclamation-circle"></i>
+    <p>No encontramos productos que coincidan con tu búsqueda.</p>
+    <button
+      class="btn-clear"
+      (click)="updateFilter('all'); searchQuery.set('')"
+    >
+      Limpiar filtros
     </button>
-    <button class="btn btn-outline-primary btn-sm" type="button">Perros</button>
-    <button class="btn btn-outline-primary btn-sm" type="button">Gatos</button>
-    <button class="btn btn-outline-primary btn-sm" type="button">
-      Hámsters
-    </button>
-    <button class="btn btn-outline-primary btn-sm" type="button">Peces</button>
   </div>
 
   <!-- Grilla de productos -->
-  <div class="row g-4">
-    <!-- Producto 1 -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-100 shadow-sm product-card">
+  <div class="product-grid">
+    <div *ngFor="let product of filteredProducts()" class="product-card">
+      <div class="product-badge" [class.low-stock]="product.stock < 5">
+        {{ product.stock < 5 ? "Últimas unidades" : "En stock" }}
+      </div>
+      <div class="product-image-container">
         <img
-          src="assets/productos/alimento-perro.png"
-          class="card-img-top"
-          alt="Alimento para perro"
+          [src]="product.imageUrl"
+          [alt]="product.name"
+          class="product-image"
+          loading="lazy"
         />
-        <div class="card-body text-center">
-          <h5 class="card-title">Alimento Premium Perro</h5>
-          <p class="card-text small text-muted">
-            Bolsa 5kg. Nutrición completa para perros adultos.
-          </p>
-          <span class="badge bg-success fs-6 mb-2">$120.000</span>
-          <button class="btn btn-primary btn-sm w-100 mt-2" disabled>
-            Comprar
+      </div>
+      <div class="product-info">
+        <div class="product-rating">
+          <i
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            class="bi"
+            [class.bi-star-fill]="star <= product.rating"
+            [class.bi-star]="star > product.rating"
+          >
+          </i>
+          <span>({{ product.rating.toFixed(1) }})</span>
+        </div>
+        <h3 class="product-title">{{ product.name }}</h3>
+        <p class="product-description">{{ product.description }}</p>
+        <div class="product-footer">
+          <span class="product-price">{{ formatPrice(product.price) }}</span>
+          <button class="add-to-cart-btn">
+            <i class="bi bi-cart-plus"></i> Añadir
           </button>
         </div>
       </div>
     </div>
-    <!-- Producto 2 -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-100 shadow-sm product-card">
-        <img
-          src="assets/productos/rascador-gato.png"
-          class="card-img-top"
-          alt="Rascador para gato"
-        />
-        <div class="card-body text-center">
-          <h5 class="card-title">Rascador para Gato</h5>
-          <p class="card-text small text-muted">
-            Ideal para el entretenimiento y salud de tu felino.
-          </p>
-          <span class="badge bg-success fs-6 mb-2">$70.000</span>
-          <button class="btn btn-primary btn-sm w-100 mt-2" disabled>
-            Comprar
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- Producto 3 -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-100 shadow-sm product-card">
-        <img
-          src="assets/productos/jaula-hamster.png"
-          class="card-img-top"
-          alt="Jaula para hámster"
-        />
-        <div class="card-body text-center">
-          <h5 class="card-title">Jaula para Hámster</h5>
-          <p class="card-text small text-muted">
-            Espaciosa y segura, con accesorios incluidos.
-          </p>
-          <span class="badge bg-success fs-6 mb-2">$95.000</span>
-          <button class="btn btn-primary btn-sm w-100 mt-2" disabled>
-            Comprar
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- Producto 4 -->
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-100 shadow-sm product-card">
-        <img
-          src="assets/productos/acuario.png"
-          class="card-img-top"
-          alt="Acuario para peces"
-        />
-        <div class="card-body text-center">
-          <h5 class="card-title">Acuario 20L</h5>
-          <p class="card-text small text-muted">
-            Incluye filtro y decoración básica.
-          </p>
-          <span class="badge bg-success fs-6 mb-2">$150.000</span>
-          <button class="btn btn-primary btn-sm w-100 mt-2" disabled>
-            Comprar
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- Agrega más productos según necesites -->
   </div>
 </div>

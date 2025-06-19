@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Lista de Mascotas</h2>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let mascota of mascotas">
+      <div class="card h-100 shadow-sm">
+        <img
+          [src]="mascota.fotoUrl"
+          class="card-img-top"
+          [alt]="mascota.nombre"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ mascota.nombre }}</h5>
+          <p class="card-text">
+            <strong>Edad:</strong> {{ mascota.edad }} años<br />
+            <strong>Raza:</strong> {{ mascota.raza }}<br />
+            <strong>Color:</strong> {{ mascota.color }}<br />
+            <strong>Tipo:</strong> {{ mascota.tipo }}<br />
+            <strong>Descripción:</strong> {{ mascota.descripcion }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

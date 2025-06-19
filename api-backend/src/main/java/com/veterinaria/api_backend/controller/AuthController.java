@@ -9,12 +9,12 @@ import com.veterinaria.api_backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,6 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -55,15 +54,10 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new MessageResponse("Error interno del servidor"));
         }
-//        catch (Exception e) {
-//            e.printStackTrace(); // IMPORTANTE para ver en consola
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(new MessageResponse("Error interno del servidor: " + e.getMessage()));
-//        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegistroRequest registroRequest) {
+    public ResponseEntity<?> registerCliente(@Valid @RequestBody RegistroRequest registroRequest) {
         if (usuarioRepository.existsByEmail(registroRequest.getEmail())) {
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("El correo ya está registrado"));
@@ -77,9 +71,33 @@ public class AuthController {
         nuevoUsuario.setDireccion(registroRequest.getDireccion());
         nuevoUsuario.setPassword(passwordEncoder.encode(registroRequest.getPassword()));
         nuevoUsuario.setRol(Rol.CLIENTE);
+        nuevoUsuario.setEspecialidad(null);
 
         usuarioRepository.save(nuevoUsuario);
 
-        return ResponseEntity.ok(new MessageResponse("Usuario registrado exitosamente"));
+        return ResponseEntity.ok(new MessageResponse("Cliente registrado exitosamente"));
+    }
+
+    @PostMapping("/register-veterinario")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> registerVeterinario(@Valid @RequestBody RegistroVeterinarioRequest request) {
+        if (usuarioRepository.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("El correo ya está registrado"));
+        }
+
+        Usuario nuevoVet = new Usuario();
+        nuevoVet.setIdentificacion(request.getIdentificacion());
+        nuevoVet.setNombre(request.getNombre());
+        nuevoVet.setApellido(request.getApellido());
+        nuevoVet.setEmail(request.getEmail());
+        nuevoVet.setDireccion(request.getDireccion());
+        nuevoVet.setPassword(passwordEncoder.encode(request.getPassword()));
+        nuevoVet.setRol(Rol.VETERINARIO);
+        nuevoVet.setEspecialidad(request.getEspecialidad());
+
+        usuarioRepository.save(nuevoVet);
+
+        return ResponseEntity.ok(new MessageResponse("Veterinarian registrado exitosamente"));
     }
 }

@@ -1,0 +1,148 @@
+.modal-content {
+  border-radius: var(--border-radius-lg) !important;
+  border: none;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.modal-header {
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0 !important;
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border-bottom: none;
+  padding: 1.5rem;
+
+  .modal-title {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+
+  .btn-close {
+    filter: invert(1) brightness(100);
+  }
+}
+
+.modal-body {
+  padding: 2rem;
+
+  .form-floating {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+
+  .input-group-text {
+    background-color: var(--color-light);
+    border-right: none;
+    color: var(--color-text-light);
+  }
+
+  .form-control {
+    border-left: none;
+    background-color: var(--color-light);
+    padding: 1rem;
+    height: auto;
+
+    &:focus {
+      box-shadow: 0 0 0 0.25rem rgba(58, 125, 68, 0.25);
+      border-color: var(--color-primary);
+    }
+  }
+}
+
+.login-btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(
+    45deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
+  border: none;
+  border-radius: var(--border-radius-full);
+  color: var(--color-text-on-primary);
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0;
+  color: var(--color-text-light);
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--color-gray);
+  }
+
+  span {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.social-login {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-light);
+    color: var(--color-text);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--color-gray);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.footer-links {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-primary-dark);
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    margin: 1rem;
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+}
