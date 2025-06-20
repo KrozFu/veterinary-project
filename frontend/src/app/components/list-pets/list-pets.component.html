@@ -5,10 +5,12 @@
     <div class="col" *ngFor="let mascota of mascotas">
       <div class="card h-100 shadow-sm">
         <img
-          [src]="mascota.fotoUrl"
+          [src]="getImagenUrl(mascota.fotoUrl)"
           class="card-img-top"
           [alt]="mascota.nombre"
+          (error)="reemplazarPorDefecto($event)"
         />
+
         <div class="card-body">
           <h5 class="card-title">{{ mascota.nombre }}</h5>
           <p class="card-text">

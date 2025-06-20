@@ -39,4 +39,15 @@ export class ListPetsComponent implements OnInit {
         },
       });
   }
+
+  getImagenUrl(fotoUrl: string): string {
+    return fotoUrl
+      ? 'http://localhost:9000' + fotoUrl
+      : 'http://localhost:9000/imagenes/default.png';
+  }
+
+  reemplazarPorDefecto(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'http://localhost:9000/imagenes/default.png';
+  }
 }

@@ -1,0 +1,245 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">
+      <i class="bi bi-people-fill"></i> Gestión de Clientes
+    </h2>
+  </div>
+
+  <!-- Alertas -->
+  <div
+    *ngIf="mensaje"
+    class="alert"
+    [ngClass]="{
+      'alert-success': mensajeType === 'success',
+      'alert-error': mensajeType === 'error',
+      'alert-info': mensajeType === 'info'
+    }"
+  >
+    {{ mensaje }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="dismissAlert()"
+      aria-label="Close"
+    ></button>
+  </div>
+
+  <!-- Tabla de Clientes -->
+  <div class="table-responsive">
+    <table class="client-table">
+      <thead>
+        <tr>
+          <th>Identificación</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>Dirección</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>{{ cliente.identificacion }}</td>
+          <td>{{ cliente.nombre }}</td>
+          <td>{{ cliente.apellido }}</td>
+          <td>{{ cliente.email }}</td>
+          <td>{{ cliente.direccion }}</td>
+          <td class="actions-cell">
+            <button
+              class="btn-action edit"
+              (click)="seleccionarCliente(cliente)"
+            >
+              <i class="bi bi-pencil-square"></i> Editar
+            </button>
+            <button
+              class="btn-action delete"
+              (click)="confirmarEliminacion(cliente.id)"
+            >
+              <i class="bi bi-trash"></i> Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formulario de Edición -->
+  <div *ngIf="clienteSeleccionado" class="edit-form-container">
+    <h3 class="form-title">
+      <i class="bi bi-person-gear"></i>
+      Editando cliente: {{ clienteSeleccionado.nombre }}
+      {{ clienteSeleccionado.apellido }}
+    </h3>
+
+    <form (ngSubmit)="actualizarCliente()" class="client-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Nombre *</label>
+          <input
+            id="nombre"
+            class="form-control"
+            [(ngModel)]="formData.nombre"
+            name="nombre"
+            required
+            [ngClass]="{ 'is-invalid': formSubmitted && !formData.nombre }"
+          />
+          <div
+            *ngIf="formSubmitted && !formData.nombre"
+            class="invalid-feedback"
+          >
+            El nombre es requerido
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="apellido">Apellido *</label>
+          <input
+            id="apellido"
+            class="form-control"
+            [(ngModel)]="formData.apellido"
+            name="apellido"
+            required
+            [ngClass]="{ 'is-invalid': formSubmitted && !formData.apellido }"
+          />
+          <div
+            *ngIf="formSubmitted && !formData.apellido"
+            class="invalid-feedback"
+          >
+            El apellido es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="direccion">Dirección *</label>
+        <input
+          id="direccion"
+          class="form-control"
+          [(ngModel)]="formData.direccion"
+          name="direccion"
+          required
+          [ngClass]="{ 'is-invalid': formSubmitted && !formData.direccion }"
+        />
+        <div
+          *ngIf="formSubmitted && !formData.direccion"
+          class="invalid-feedback"
+        >
+          La dirección es requerida
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Nueva contraseña (opcional)</label>
+        <input
+          id="password"
+          class="form-control"
+          [(ngModel)]="formData.password"
+          name="password"
+          type="password"
+          placeholder="Dejar en blanco para no cambiar"
+        />
+        <small class="form-text">Mínimo 6 caracteres</small>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
+          <span *ngIf="!isSubmitting">
+            <i class="bi bi-save"></i> Actualizar
+          </span>
+          <span *ngIf="isSubmitting">
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Guardando...
+          </span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="cancelarEdicion()"
+        >
+          <i class="bi bi-x-circle"></i> Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modal de Confirmación -->
+  <div *ngIf="showDeleteModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Confirmar Eliminación</h3>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="showDeleteModal = false"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          ¿Estás seguro de eliminar este cliente? Esta acción no se puede
+          deshacer.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="showDeleteModal = false"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="eliminarCliente()"
+        >
+          <i class="bi bi-trash"></i> Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showCannotDeleteModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>No se puede eliminar el cliente</h3>
+      <button
+        type="button"
+        class="btn-close"
+        (click)="showCannotDeleteModal = false"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Este cliente tiene mascotas asociadas en el sistema. Para eliminarlo,
+        primero debe:
+      </p>
+      <ul>
+        <li>Eliminar manualmente todas sus mascotas, o</li>
+        <li>Transferir las mascotas a otro cliente</li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="showCannotDeleteModal = false"
+      >
+        Entendido
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="transferirMascotas()"
+      >
+        <i class="bi bi-arrow-left-right"></i> Transferir mascotas
+      </button>
+    </div>
+  </div>
+</div>

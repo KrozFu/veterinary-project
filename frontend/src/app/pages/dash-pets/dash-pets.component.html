@@ -1,29 +1,43 @@
-<div class="container py-4">
-  <h2 class="mb-4">Panel de Administración</h2>
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">
+      <i class="bi bi-heart-pulse-fill"></i> Administración de Mascotas
+    </h2>
+    <p class="dashboard-subtitle">Gestión integral de pacientes veterinarios</p>
+  </div>
 
-  <div class="row">
-    <div class="col-md-6">
-      <button
-        class="btn btn-primary w-100 mb-3"
-        (click)="toggleSection('regpets')"
-      >
-        Registrar Mascota
-      </button>
+  <div class="dashboard-actions">
+    <div
+      class="action-card"
+      [class.active]="section === 'regpets'"
+      (click)="toggleSection('regpets')"
+    >
+      <div class="action-icon">
+        <i class="bi bi-file-earmark-plus-fill"></i>
+      </div>
+      <h3 class="action-title">Registrar Mascota</h3>
+      <p class="action-description">Agregar nuevo paciente al sistema</p>
     </div>
-    <div class="col-md-6">
-      <button
-        class="btn btn-secondary w-100 mb-3"
-        (click)="toggleSection('listpets')"
-      >
-        Mascotas
-      </button>
+
+    <div
+      class="action-card"
+      [class.active]="section === 'listpets'"
+      (click)="toggleSection('listpets')"
+    >
+      <div class="action-icon">
+        <i class="bi bi-list-ul"></i>
+      </div>
+      <h3 class="action-title">Lista de Mascotas</h3>
+      <p class="action-description">Ver y gestionar pacientes registrados</p>
     </div>
   </div>
 
-  <div *ngIf="section === 'regpets'">
-    <app-register-pet></app-register-pet>
-  </div>
-  <div *ngIf="section === 'listpets'">
-    <app-list-pets></app-list-pets>
+  <div class="dashboard-content">
+    <div *ngIf="section === 'regpets'" class="content-section animate-fade">
+      <app-register-pet></app-register-pet>
+    </div>
+    <div *ngIf="section === 'listpets'" class="content-section animate-fade">
+      <app-list-pets></app-list-pets>
+    </div>
   </div>
 </div>

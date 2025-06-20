@@ -78,26 +78,26 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("Cliente registrado exitosamente"));
     }
 
-    @PostMapping("/register-veterinario")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> registerVeterinario(@Valid @RequestBody RegistroVeterinarioRequest request) {
-        if (usuarioRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.badRequest()
-                    .body(new MessageResponse("El correo ya está registrado"));
-        }
-
-        Usuario nuevoVet = new Usuario();
-        nuevoVet.setIdentificacion(request.getIdentificacion());
-        nuevoVet.setNombre(request.getNombre());
-        nuevoVet.setApellido(request.getApellido());
-        nuevoVet.setEmail(request.getEmail());
-        nuevoVet.setDireccion(request.getDireccion());
-        nuevoVet.setPassword(passwordEncoder.encode(request.getPassword()));
-        nuevoVet.setRol(Rol.VETERINARIO);
-        nuevoVet.setEspecialidad(request.getEspecialidad());
-
-        usuarioRepository.save(nuevoVet);
-
-        return ResponseEntity.ok(new MessageResponse("Veterinarian registrado exitosamente"));
-    }
+//    @PostMapping("/register-veterinario")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<?> registerVeterinario(@Valid @RequestBody RegistroVeterinarioRequest request) {
+//        if (usuarioRepository.existsByEmail(request.getEmail())) {
+//            return ResponseEntity.badRequest()
+//                    .body(new MessageResponse("El correo ya está registrado"));
+//        }
+//
+//        Usuario nuevoVet = new Usuario();
+//        nuevoVet.setIdentificacion(request.getIdentificacion());
+//        nuevoVet.setNombre(request.getNombre());
+//        nuevoVet.setApellido(request.getApellido());
+//        nuevoVet.setEmail(request.getEmail());
+//        nuevoVet.setDireccion(request.getDireccion());
+//        nuevoVet.setPassword(passwordEncoder.encode(request.getPassword()));
+//        nuevoVet.setRol(Rol.VETERINARIO);
+//        nuevoVet.setEspecialidad(request.getEspecialidad());
+//
+//        usuarioRepository.save(nuevoVet);
+//
+//        return ResponseEntity.ok(new MessageResponse("Veterinarian registrado exitosamente"));
+//    }
 }

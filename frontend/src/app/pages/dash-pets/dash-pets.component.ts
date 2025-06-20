@@ -8,12 +8,12 @@ import { ListPetsComponent } from '../../components/list-pets/list-pets.componen
   standalone: true,
   imports: [CommonModule, RegisterPetComponent, ListPetsComponent],
   templateUrl: './dash-pets.component.html',
-  styleUrl: './dash-pets.component.css',
+  styleUrls: ['./dash-pets.component.css'],
 })
 export class DashPetsComponent {
-  section: string = '';
+  section: string = 'regpets';
 
   toggleSection(section: string): void {
-    this.section = this.section === section ? '' : section;
+    this.section = section;
   }
 }

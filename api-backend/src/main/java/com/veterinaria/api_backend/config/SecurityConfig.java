@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/veterinario/**").hasAnyRole("VETERINARIO", "ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/historiales/**").hasAnyRole("VETERINARIO", "ADMIN")
+                        .requestMatchers("imagenes/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

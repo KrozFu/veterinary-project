@@ -15,14 +15,15 @@ export const routes: Routes = [
     data: { roles: ['ADMIN', 'CLIENTE', 'VETERINARIO'] },
   },
   {
-    path: 'admin/manage-clients',
+    path: 'admin/manage-vets',
     loadComponent: () =>
-      import('./pages/admin-dashboard/admin-dashboard.component').then(
-        (m) => m.AdminDashboardComponent
+      import('./components/register-vet/register-vet.component').then(
+        (m) => m.RegisterVetComponent
       ),
     canActivate: [AuthGuard],
     data: { roles: ['ADMIN'] },
   },
+  // ----------------- Revisar bien esto -----------------
   {
     path: 'admin/dash-pets',
     loadComponent: () =>
@@ -30,8 +31,49 @@ export const routes: Routes = [
         (m) => m.DashPetsComponent
       ),
     canActivate: [AuthGuard],
+    data: { roles: ['ADMIN'] },
+  },
+  // -------------------------------
+  // Registrar Mascota y listar
+  {
+    path: 'admin/list-pets',
+    loadComponent: () =>
+      import('./components/list-pets/list-pets.component').then(
+        (m) => m.ListPetsComponent
+      ),
+    canActivate: [AuthGuard],
     data: { roles: ['ADMIN', 'CLIENTE'] },
   },
+  {
+    path: 'admin/register-pets',
+    loadComponent: () =>
+      import('./components/register-pet/register-pet.component').then(
+        (m) => m.RegisterPetComponent
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN', 'CLIENTE'] },
+  },
+  // Final Registrar Mascota y listar
+  // Consultar los usuarios CLIENTE y VETERINARIO
+  {
+    path: 'admin/manage-clients',
+    loadComponent: () =>
+      import('./pages/admin-clientes.component').then(
+        (m) => m.AdminClientesComponent
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN', 'CLIENTE'] },
+  },
+  {
+    path: 'admin/manage-list-vets',
+    loadComponent: () =>
+      import('./pages/admin-veterinarios.component').then(
+        (m) => m.AdminVeterinariosComponent
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN', 'CLIENTE'] },
+  },
+  // Final Consultar los usuarios
   {
     path: '**',
     redirectTo: '',

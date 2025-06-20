@@ -1,31 +1,153 @@
-<form [formGroup]="vetForm" (ngSubmit)="onSubmit()">
-  <div class="mb-3">
-    <label>Nombre</label>
-    <input type="text" formControlName="nombre" class="form-control" />
+<div class="form-container">
+  <h2 class="form-title">
+    <i class="bi bi-person-plus-fill"></i> Registro de Veterinario
+  </h2>
+
+  <!-- Alertas -->
+  <div *ngIf="alertMessage" class="alert" [ngClass]="alertType">
+    {{ alertMessage }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="dismissAlert()"
+      aria-label="Close"
+    ></button>
   </div>
-  <div class="mb-3">
-    <label>Apellido</label>
-    <input type="text" formControlName="apellido" class="form-control" />
-  </div>
-  <div class="mb-3">
-    <label>Identificación</label>
-    <input type="text" formControlName="identificacion" class="form-control" />
-  </div>
-  <div class="mb-3">
-    <label>Email</label>
-    <input type="email" formControlName="email" class="form-control" />
-  </div>
-  <div class="mb-3">
-    <label>Dirección</label>
-    <input type="text" formControlName="direccion" class="form-control" />
-  </div>
-  <div class="mb-3">
-    <label>Especialidad</label>
-    <input type="text" formControlName="especialidad" class="form-control" />
-  </div>
-  <div class="mb-3">
-    <label>Contraseña</label>
-    <input type="password" formControlName="password" class="form-control" />
-  </div>
-  <button type="submit" class="btn btn-success">Registrar Veterinario</button>
-</form>
+
+  <form [formGroup]="vetForm" (ngSubmit)="onSubmit()" class="vet-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input
+          type="text"
+          id="nombre"
+          formControlName="nombre"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': isFieldInvalid('nombre') }"
+        />
+        <div *ngIf="isFieldInvalid('nombre')" class="invalid-feedback">
+          Por favor ingrese el nombre del veterinario
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="apellido" class="form-label">Apellido</label>
+        <input
+          type="text"
+          id="apellido"
+          formControlName="apellido"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': isFieldInvalid('apellido') }"
+        />
+        <div *ngIf="isFieldInvalid('apellido')" class="invalid-feedback">
+          Por favor ingrese el apellido del veterinario
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="identificacion" class="form-label">Identificación</label>
+      <input
+        type="text"
+        id="identificacion"
+        formControlName="identificacion"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': isFieldInvalid('identificacion') }"
+      />
+      <div *ngIf="isFieldInvalid('identificacion')" class="invalid-feedback">
+        Por favor ingrese la identificación
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': isFieldInvalid('email') }"
+      />
+      <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">
+        {{ getErrorMessage("email") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="direccion" class="form-label">Dirección</label>
+      <input
+        type="text"
+        id="direccion"
+        formControlName="direccion"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': isFieldInvalid('direccion') }"
+      />
+      <div *ngIf="isFieldInvalid('direccion')" class="invalid-feedback">
+        Por favor ingrese la dirección
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="especialidad" class="form-label">Especialidad</label>
+      <select
+        id="especialidad"
+        formControlName="especialidad"
+        class="form-select"
+        [ngClass]="{ 'is-invalid': isFieldInvalid('especialidad') }"
+      >
+        <option value="" disabled>Seleccione una especialidad</option>
+        <option value="General">Medicina General</option>
+        <option value="Cirugia">Cirugía</option>
+        <option value="Dermatologia">Dermatología</option>
+        <option value="Oftalmologia">Oftalmología</option>
+        <option value="Odontologia">Odontología</option>
+        <option value="Cardiologia">Cardiología</option>
+        <option value="Otra">Otra especialidad</option>
+      </select>
+      <div *ngIf="isFieldInvalid('especialidad')" class="invalid-feedback">
+        Por favor seleccione una especialidad
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password" class="form-label">Contraseña</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': isFieldInvalid('password') }"
+        placeholder="Mínimo 6 caracteres"
+      />
+      <div *ngIf="isFieldInvalid('password')" class="invalid-feedback">
+        {{ getErrorMessage("password") }}
+      </div>
+      <small class="form-text text-muted"
+        >La contraseña debe tener al menos 6 caracteres</small
+      >
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">
+          <i class="bi bi-save"></i> Registrar Veterinario
+        </span>
+        <span *ngIf="isSubmitting">
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Procesando...
+        </span>
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="resetForm()"
+      >
+        <i class="bi bi-arrow-counterclockwise"></i> Limpiar
+      </button>
+    </div>
+  </form>
+</div>
