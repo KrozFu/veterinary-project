@@ -77,11 +77,11 @@ export class LoginModalComponent {
 
   redirectByRole(roles: string[]): void {
     if (roles.includes('ADMIN')) {
-      this.router.navigate(['/admin-dashboard']);
+      this.router.navigate(['/dashboard']);
     } else if (roles.includes('MEDICO')) {
-      this.router.navigate(['/veterinary-dashboard']);
+      this.router.navigate(['/dashboard']);
     } else if (roles.includes('CLIENTE')) {
-      this.router.navigate(['/client-dashboard']);
+      this.router.navigate(['/dashboard']);
     } else {
       this.router.navigate(['/']);
     }

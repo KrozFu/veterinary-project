@@ -8,6 +8,7 @@ import com.veterinaria.api_backend.repository.CitaRepository;
 import com.veterinaria.api_backend.repository.CitaService;
 import com.veterinaria.api_backend.repository.MascotaRepository;
 import com.veterinaria.api_backend.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -68,6 +69,62 @@ public class CitaServiceImpl implements CitaService {
                 .stream()
                 .map(this::convertirADTO)
                 .toList();
+    }
+
+    @Override
+    public List<CitaResponseDTO> obtenerTodasLasCitas() {
+        return citaRepository.findAll()
+                .stream()
+                .map(this::convertirADTO)
+                .toList();
+    }
+
+    @Override
+    public CitaResponseDTO actualizarCita(Long id, CitaRequestDTO dto) {
+        // Buscar la cita original
+        Cita cita = citaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cita no encontrada"));
+
+        // Buscar y validar el veterinario
+        Usuario veterinario = usuarioRepository.findById(dto.getVeterinarioId())
+                .orElseThrow(() -> new EntityNotFoundException("Veterinario no encontrado"));
+
+        if (veterinario.getRol() != Rol.VETERINARIO) {
+            throw new IllegalArgumentException("El usuario seleccionado no es un veterinario válido");
+        }
+
+        // Buscar la mascota
+        Mascota mascota = mascotaRepository.findById(dto.getMascotaId())
+                .orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada"));
+
+        // Validar disponibilidad del veterinario si cambió la fecha o el veterinario
+        boolean cambiaronFechaOVeterinario =
+                !dto.getFecha().equals(cita.getFecha()) ||
+                        !veterinario.getId().equals(cita.getVeterinario().getId());
+
+        if (cambiaronFechaOVeterinario) {
+            boolean ocupado = citaRepository.existeCitaEnFecha(veterinario.getId(), dto.getFecha());
+            if (ocupado) {
+                throw new VeterinarioOcupadoException("El veterinario no está disponible en la nueva fecha.");
+            }
+        }
+
+        // Actualizar datos
+        cita.setFecha(dto.getFecha());
+        cita.setMotivo(dto.getMotivo());
+        cita.setVeterinario(veterinario);
+        cita.setMascota(mascota);
+
+        Cita actualizada = citaRepository.save(cita);
+        return convertirADTO(actualizada);
+    }
+
+    @Override
+    public void eliminarCita(Long id) {
+        Cita cita = citaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cita no encontrada"));
+
+        citaRepository.delete(cita);
     }
 
     private CitaResponseDTO convertirADTO(Cita cita) {

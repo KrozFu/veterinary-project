@@ -1,0 +1,135 @@
+<div class="form-container">
+  <h2 class="form-title">
+    <i class="bi bi-calendar-plus"></i> Registrar Nueva Cita
+  </h2>
+
+  <!-- Alertas -->
+  <div *ngIf="alertMessage" class="alert" [ngClass]="alertType">
+    {{ alertMessage }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="dismissAlert()"
+      aria-label="Close"
+    ></button>
+  </div>
+
+  <form
+    [formGroup]="appointmentForm"
+    (ngSubmit)="onSubmit()"
+    class="appointment-form"
+  >
+    <div class="form-row">
+      <div class="form-group">
+        <label for="mascotaId" class="form-label">Mascota *</label>
+        <select
+          id="mascotaId"
+          class="form-select"
+          formControlName="mascotaId"
+          [ngClass]="{ 'is-invalid': isFieldInvalid('mascotaId') }"
+        >
+          <option value="" disabled>Seleccione una mascota</option>
+          <option *ngFor="let mascota of mascotas" [value]="mascota.id">
+            {{ mascota.nombre }} ({{ mascota.tipo }} - {{ mascota.raza }})
+          </option>
+        </select>
+        <div *ngIf="isFieldInvalid('mascotaId')" class="invalid-feedback">
+          Por favor seleccione una mascota
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="veterinarioId" class="form-label">Veterinario *</label>
+        <select
+          id="veterinarioId"
+          class="form-select"
+          formControlName="veterinarioId"
+          [ngClass]="{ 'is-invalid': isFieldInvalid('veterinarioId') }"
+        >
+          <option value="" disabled>Seleccione un veterinario</option>
+          <option *ngFor="let vet of veterinarios" [value]="vet.id">
+            Dr. {{ vet.nombre }} {{ vet.apellido }} - {{ vet.especialidad }}
+          </option>
+        </select>
+        <div *ngIf="isFieldInvalid('veterinarioId')" class="invalid-feedback">
+          Por favor seleccione un veterinario
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="fecha" class="form-label">Fecha y Hora *</label>
+        <input
+          type="datetime-local"
+          id="fecha"
+          class="form-control"
+          formControlName="fecha"
+          [ngClass]="{ 'is-invalid': isFieldInvalid('fecha') }"
+          [min]="minDate"
+        />
+        <div *ngIf="isFieldInvalid('fecha')" class="invalid-feedback">
+          Por favor seleccione una fecha y hora válida
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="duracion" class="form-label">Duración (minutos) *</label>
+        <select
+          id="duracion"
+          class="form-select"
+          formControlName="duracion"
+          [ngClass]="{ 'is-invalid': isFieldInvalid('duracion') }"
+        >
+          <option value="" disabled>Seleccione duración</option>
+          <option value="30">30 minutos</option>
+          <option value="45">45 minutos</option>
+          <option value="60">60 minutos</option>
+          <option value="90">90 minutos</option>
+        </select>
+        <div *ngIf="isFieldInvalid('duracion')" class="invalid-feedback">
+          Por favor seleccione la duración
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="motivo" class="form-label">Motivo *</label>
+      <textarea
+        id="motivo"
+        class="form-control"
+        formControlName="motivo"
+        [ngClass]="{ 'is-invalid': isFieldInvalid('motivo') }"
+        placeholder="Describa el motivo de la cita"
+        rows="3"
+      ></textarea>
+      <div *ngIf="isFieldInvalid('motivo')" class="invalid-feedback">
+        {{ getErrorMessage("motivo") }}
+      </div>
+      <small class="form-text text-muted">Máximo 200 caracteres</small>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">
+          <i class="bi bi-calendar-check"></i> Registrar Cita
+        </span>
+        <span *ngIf="isSubmitting">
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Procesando...
+        </span>
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="resetForm()"
+      >
+        <i class="bi bi-arrow-counterclockwise"></i> Limpiar
+      </button>
+    </div>
+  </form>
+</div>

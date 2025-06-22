@@ -20,25 +20,52 @@ public class CitaController {
 
     private final CitaService citaService;
 
+    // Crear cita: CLIENTE o ADMIN
     @PostMapping
-    @PreAuthorize("hasRole('CLIENTE')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'ADMIN')")
     public ResponseEntity<CitaResponseDTO> crearCita(
             @RequestBody @Valid CitaRequestDTO dto,
             @AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(citaService.crearCita(dto, userDetails.getUsername()));
     }
 
-    @GetMapping("/citas")
+    // Ver citas del cliente autenticado
+    @GetMapping("/citas-cliente")
     @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<List<CitaResponseDTO>> obtenerCitasCliente(
             @AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(citaService.obtenerCitasCliente(userDetails.getUsername()));
     }
 
-    @GetMapping("/veterinario")
+    // Ver citas asignadas al veterinario autenticado
+    @GetMapping("/citas-veterinario")
     @PreAuthorize("hasRole('VETERINARIO')")
     public ResponseEntity<List<CitaResponseDTO>> obtenerCitasVeterinario(
             @AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(citaService.obtenerCitasVeterinario(userDetails.getUsername()));
+    }
+
+    // Ver todas las citas: solo ADMIN
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<CitaResponseDTO>> obtenerTodasLasCitas() {
+        return ResponseEntity.ok(citaService.obtenerTodasLasCitas());
+    }
+
+    // Actualizar cita (por ID): solo ADMIN
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CitaResponseDTO> actualizarCita(
+            @PathVariable Long id,
+            @RequestBody @Valid CitaRequestDTO dto) {
+        return ResponseEntity.ok(citaService.actualizarCita(id, dto));
+    }
+
+    // Eliminar cita (por ID): solo ADMIN
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> eliminarCita(@PathVariable Long id) {
+        citaService.eliminarCita(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -38,12 +38,19 @@ export class RoleDashboardPanelComponent implements OnInit {
       color: 'info',
     },
     {
-      title: 'Administrar Mascotas',
-      route: '/admin/dash-pets',
-      icon: 'bi-paw-fill',
-      description: 'Gestiona el registro de pacientes animales',
-      color: 'success',
+      title: 'Administrar Citas',
+      route: '/table/citas',
+      icon: 'bi-person-plus-fill',
+      description: 'Administracion de panel de Citas',
+      color: 'info',
     },
+    // {
+    //   title: 'Administrar Mascotas',
+    //   route: '/admin/dash-pets',
+    //   icon: 'bi-paw-fill',
+    //   description: 'Gestiona el registro de pacientes animales',
+    //   color: 'success',
+    // },
   ];
 
   // Opciones para CLIENTE
@@ -56,18 +63,18 @@ export class RoleDashboardPanelComponent implements OnInit {
       color: 'success',
     },
     {
-      title: 'Agendar Cita',
-      route: '/client/appointments',
-      icon: 'bi-calendar-check',
-      description: 'Solicita una cita para tu mascota',
-      color: 'primary',
-    },
-    {
       title: 'Mis Mascotas',
       route: '/admin/list-pets',
       icon: 'bi-heart-fill',
       description: 'Revisa el historial de tus mascotas',
       color: 'warning',
+    },
+    {
+      title: 'Agendar Cita',
+      route: '/client/register-appointment',
+      icon: 'bi-calendar-check',
+      description: 'Solicita una cita para tu mascota',
+      color: 'primary',
     },
   ];
 

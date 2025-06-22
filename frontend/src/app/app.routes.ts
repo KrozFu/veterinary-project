@@ -54,7 +54,7 @@ export const routes: Routes = [
     data: { roles: ['ADMIN', 'CLIENTE'] },
   },
   // Final Registrar Mascota y listar
-  // Consultar los usuarios CLIENTE y VETERINARIO
+  // Consultar solo ADMIN los usuarios CLIENTE y VETERINARIO
   {
     path: 'admin/manage-clients',
     loadComponent: () =>
@@ -62,7 +62,7 @@ export const routes: Routes = [
         (m) => m.AdminClientesComponent
       ),
     canActivate: [AuthGuard],
-    data: { roles: ['ADMIN', 'CLIENTE'] },
+    data: { roles: ['ADMIN'] },
   },
   {
     path: 'admin/manage-list-vets',
@@ -71,9 +71,27 @@ export const routes: Routes = [
         (m) => m.AdminVeterinariosComponent
       ),
     canActivate: [AuthGuard],
-    data: { roles: ['ADMIN', 'CLIENTE'] },
+    data: { roles: ['ADMIN'] },
   },
   // Final Consultar los usuarios
+  {
+    path: 'client/register-appointment',
+    loadComponent: () =>
+      import(
+        './components/register-appointment/register-appointment.component'
+      ).then((m) => m.RegisterAppointmentComponent),
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN', 'CLIENTE'] },
+  },
+  {
+    path: 'table/citas',
+    loadComponent: () =>
+      import('./components/citas/citas.component').then(
+        (m) => m.CitasComponent
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN', 'CLIENTE'] },
+  },
   {
     path: '**',
     redirectTo: '',

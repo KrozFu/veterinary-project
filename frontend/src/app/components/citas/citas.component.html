@@ -1,0 +1,88 @@
+<div class="container mt-4">
+  <h3>Citas</h3>
+  <div *ngIf="mensaje" class="alert alert-info">{{ mensaje }}</div>
+
+  <div *ngIf="rolUsuario === 'ADMIN' || rolUsuario === 'CLIENTE'">
+    <form (ngSubmit)="guardarCita()">
+      <div class="row mb-3">
+        <div class="col">
+          <input
+            type="datetime-local"
+            [(ngModel)]="formCita.fecha"
+            name="fecha"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col">
+          <input
+            type="text"
+            [(ngModel)]="formCita.motivo"
+            name="motivo"
+            class="form-control"
+            placeholder="Motivo"
+            required
+          />
+        </div>
+        <div class="col">
+          <input
+            type="number"
+            [(ngModel)]="formCita.veterinarioId"
+            name="veterinarioId"
+            class="form-control"
+            placeholder="Veterinario ID"
+            required
+          />
+        </div>
+        <div class="col">
+          <input
+            type="number"
+            [(ngModel)]="formCita.mascotaId"
+            name="mascotaId"
+            class="form-control"
+            placeholder="Mascota ID"
+            required
+          />
+        </div>
+        <div class="col">
+          <!-- <button class="btn btn-primary">
+            {{ editarCitaId ? "Actualizar" : "Agregar" }}
+          </button> -->
+          <button type="button" class="btn btn-secondary" (click)="cancelar()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Motivo</th>
+        <th>Estado</th>
+        <th>Mascota</th>
+        <th>Veterinario</th>
+        <th *ngIf="rolUsuario === 'ADMIN'">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cita of citas">
+        <td>{{ cita.fecha }}</td>
+        <td>{{ cita.motivo }}</td>
+        <td>{{ cita.estado }}</td>
+        <td>{{ cita.nombreMascota }}</td>
+        <td>{{ cita.nombreVeterinario }}</td>
+        <td *ngIf="rolUsuario === 'ADMIN'">
+          <button class="btn btn-sm btn-warning" (click)="editar(cita)">
+            Editar
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(cita.id)">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

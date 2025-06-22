@@ -108,7 +108,8 @@ export class RegisterVetComponent {
 
     this.http
       .post<{ message: string }>(
-        'http://localhost:9000/api/auth/register-veterinario',
+        // 'http://localhost:9000/api/auth/register-veterinario',
+        'http://localhost:9000/api/admin/usuarios/register-veterinario',
         vetData,
         { headers }
       )
